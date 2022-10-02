@@ -15,20 +15,23 @@ body
     &__h1
         padding: 10px 0px
 .main
-    border: 1px red solid
     max-width: 1440px
     display: flex
     justify-content: center
     min-width: 320px
     width: 50vw
+    background: rgba(white, 0.05)
+    border-radius: 25px
+    border: none
+    color: white
+    box-shadow: 5px 5px 10px black
+    backdrop-filter: blur(5px)
     &__table
-        border: 1px blue solid
         width: 100%
         &-row
             display: flex
         &-header,
         &-col
-            border: 2px purple solid
             display: flex
             flex-direction: column
             align-items: center
@@ -38,6 +41,7 @@ body
             max-height: 80vh
         &-header
             padding: 10px 0px
+            text-transform: uppercase
         &-button
             all: unset
             cursor: pointer
@@ -49,6 +53,13 @@ body
             text-align: center
             font-weight: bolder
             border-bottom: 1px white solid
-            transition: 1s
+            transition: 0.5s
+            &:last-child
+                border: none
+                border-radius: 25px
             &:hover
-                background: blue
+                background: #070739
+::-webkit-scrollbar
+    width: 10px
+::-webkit-scrollbar-thumb
+  background: #888

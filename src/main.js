@@ -1,4 +1,5 @@
-'use strict';
+'use strict'
+require('dotenv').config()
 
 window.printValue = function printValue(id) {
   var item = window.localStorage.getItem('data')
@@ -11,8 +12,8 @@ window.printValue = function printValue(id) {
     var namenode = document.createTextNode(k)
     node.appendChild(namenode)
     node.appendChild(valuenode)
-    node.classList.add('main__table-p', `${k}`)
-    node.setAttribute('id',`${id}p`)
+    node.classList.add('main__table-p', k)
+    node.setAttribute('id', id +'p')
     el.appendChild(node)
   }
 }
@@ -23,7 +24,6 @@ if (localStorage.data === undefined || localStorage.date !== getAPIDate('today')
 } else {
   printCurrency()
 }
-printCurrency()
 
 function getAPIDate(req) {
   
@@ -51,11 +51,10 @@ function getAPIDate(req) {
   return today
 }
 
-
 function getRequest() {
   var xhr= new XMLHttpRequest()
-  xhr.open('GET', `https://api.apilayer.com/exchangerates_data/timeseries?start_date=${getAPIDate('prevMonday')}&end_date=${getAPIDate('today')}&base=PLN`, true)
-  xhr.setRequestHeader('apikey', '')
+  xhr.open('GET', 'https://api.apilayer.com/exchangerates_data/timeseries?start_date=' + getAPIDate('prevMonday') + '&end_date=' + getAPIDate('today') + '&base=PLN', true)
+  xhr.setRequestHeader('apikey', process.env.API_KEY)
  
   xhr.onload = function() {
  
@@ -80,9 +79,8 @@ function printCurrency() {
     node.appendChild(namenode)
     node.appendChild(valuenode)
     el.appendChild(node)
-    node.classList.add('main__table-button', `${k}`)
-    node.setAttribute('id',`${k}`)
-    node.setAttribute('onClick','printValue("' + `${k}` +'")')
+    node.classList.add('main__table-button', k)
+    node.setAttribute('id', k)
+    node.setAttribute('onClick','printValue("' + k + '")')
   }
 }
-

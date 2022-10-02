@@ -120,24 +120,66 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"main.js":[function(require,module,exports) {
 'use strict';
 
-function getToday() {
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, '0');
-  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+window.printValue = function printValue(id) {
+  var item = window.localStorage.getItem('data');
+  document.getElementById('rowResult').innerHTML = '';
+  document.getElementById('colHeader').innerText = id;
 
+  for (var k in JSON.parse(item).rates) {
+    var el = document.getElementById('rowResult');
+    var node = document.createElement('td');
+    var valuenode = document.createTextNode(' | ' + JSON.parse(item).rates[k][id]);
+    var namenode = document.createTextNode(k);
+    node.appendChild(namenode);
+    node.appendChild(valuenode);
+    node.classList.add('main__table-p', "".concat(k));
+    node.setAttribute('id', "".concat(id, "p"));
+    el.appendChild(node);
+  }
+};
+
+if (localStorage.data === undefined || localStorage.date !== getAPIDate('today')) {
+  getRequest();
+  window.localStorage.date = getAPIDate('today');
+} else {
+  printCurrency();
+}
+
+printCurrency();
+
+function getAPIDate(req) {
+  var today = new Date();
+  var previousMonday = new Date();
+  previousMonday.setDate(previousMonday.getDate() - ((previousMonday.getDay() + 6) % 7 + 7));
+  var prevMondaymm = String(previousMonday.getMonth() + 1).padStart(2, '0');
+  var prevMondayyyyy = previousMonday.getFullYear();
+  var prevMondaydd = String(previousMonday.getDate()).padStart(2, '0');
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0');
   var yyyy = today.getFullYear();
-  today = yyyy + '-' + mm + '-' + dd;
+
+  switch (req) {
+    case 'prevMonday':
+      today = prevMondayyyyy + '-' + prevMondaymm + '-' + prevMondaydd;
+      break;
+
+    case 'today':
+      today = yyyy + '-' + mm + '-' + dd;
+      break;
+  }
+
   return today;
 }
 
 function getRequest() {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', "https://api.apilayer.com/exchangerates_data/timeseries?start_date=2022-09-24&end_date=2022-10-01&base=PLN", true);
+  xhr.open('GET', "https://api.apilayer.com/exchangerates_data/timeseries?start_date=".concat(getAPIDate('prevMonday'), "&end_date=").concat(getAPIDate('today'), "&base=PLN"), true);
   xhr.setRequestHeader('apikey', '');
 
   xhr.onload = function () {
     if (xhr.status === 200) {
       window.localStorage.setItem('data', this.responseText);
+      printCurrency();
     } else {
       console.log('Error: ' + xhr.status);
     }
@@ -146,30 +188,21 @@ function getRequest() {
   xhr.send(null);
 }
 
-function test() {
+function printCurrency() {
   var item = window.localStorage.getItem('data');
 
-  for (var k in JSON.parse(item).rates[getToday()]) {
-    console.log(k);
+  for (var k in JSON.parse(item).rates[getAPIDate('today')]) {
     var el = document.getElementById('rowList');
     var node = document.createElement('button');
-    var valnode = document.createTextNode(' ' + JSON.parse(item).rates[getToday()][k]);
-    var textnode = document.createTextNode(k);
-    node.appendChild(textnode);
-    node.appendChild(valnode);
+    var valuenode = document.createTextNode(' ' + JSON.parse(item).rates[getAPIDate('today')][k]);
+    var namenode = document.createTextNode(k);
+    node.appendChild(namenode);
+    node.appendChild(valuenode);
     el.appendChild(node);
-    console.log(valnode);
+    node.classList.add('main__table-button', "".concat(k));
+    node.setAttribute('id', "".concat(k));
+    node.setAttribute('onClick', 'printValue("' + "".concat(k) + '")');
   }
-
-  console.log(getToday());
-}
-
-if (localStorage.data === undefined) {
-  getRequest();
-  test();
-} else {
-  console.log('data w localstorage');
-  test();
 }
 },{}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -199,7 +232,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60888" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50461" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -3,6 +3,7 @@
     margin: 0
     padding: 0
     color: white
+
 body
     display: flex
     align-items: center
@@ -11,27 +12,33 @@ body
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
     height: 100vh
     background: #000011
+
 .header
     &__h1
         padding: 10px 0px
+
 .main
     max-width: 1440px
     display: flex
     justify-content: center
     min-width: 320px
-    width: 50vw
+    width: 98vw
     background: rgba(white, 0.05)
     border-radius: 25px
     border: none
     color: white
     box-shadow: 5px 5px 10px black
     backdrop-filter: blur(5px)
+
     &__table
         width: 100%
+
         &-row
             display: flex
+
         &-header,
         &-col
+
             display: flex
             flex-direction: column
             align-items: center
@@ -39,13 +46,16 @@ body
             overflow: auto
             overflow-x: hidden
             max-height: 80vh
+
         &-header
             padding: 10px 0px
             text-transform: uppercase
+
         &-button
             all: unset
             cursor: pointer
             border-bottom: 1px white solid
+
         &-p,
         &-button
             padding: 20px 0px
@@ -54,12 +64,21 @@ body
             font-weight: bolder
             border-bottom: 1px white solid
             transition: 0.5s
+
             &:last-child
                 border: none
                 border-radius: 25px
+
             &:hover
                 background: #070739
+
 ::-webkit-scrollbar
     width: 10px
+
 ::-webkit-scrollbar-thumb
-  background: #888
+    background: #888
+
+@media screen and (min-width: 900px)
+
+    .main
+        width: 50vw

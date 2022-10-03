@@ -24,7 +24,7 @@ body {
   display: flex;
   justify-content: center;
   min-width: 320px;
-  width: 50vw;
+  width: 98vw;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 25px;
   border: none;
@@ -79,4 +79,10 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: #888;
+}
+
+@media screen and (min-width: 900px) {
+  .main {
+    width: 50vw;
+  }
 }/*# sourceMappingURL=style.css.map */

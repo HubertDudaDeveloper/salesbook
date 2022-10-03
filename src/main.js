@@ -1,5 +1,4 @@
 'use strict'
-require('dotenv').config()
 
 window.printValue = function printValue(id) {
   var item = window.localStorage.getItem('data')
